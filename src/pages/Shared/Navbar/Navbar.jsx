@@ -1,7 +1,19 @@
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/Images/logo.png';
+import useAuth from '../../../Hooks/useAuth';
 
 function Navbar() {
+  const { user,logout } = useAuth()
+  
+  const handelLogout = () => [
+    logout()
+    .then(() => {
+            toast.success("Signout Successful!")
+        })
+        .catch()
+  ]
+
     const navLinks = (
       <>
         <li className="me-2">
@@ -52,10 +64,45 @@ function Navbar() {
             {navLinks}
           </ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn btn-primary">Login</a>
+        <div className="navbar-end flex items-center">
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src={user.photoURL}
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              >
+                <li>
+                  <a className="justify-between">
+                    Profile
+                  </a>
+                </li>
+                <li>
+                  <a>Settings</a>
+                </li>
+                <li>
+                  <a className='font-semibold bg-base-200 flex justify-center' onClick={handelLogout}>Logout</a>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <Link to="/signIn" className="btn btn-primary">
+              Login
+            </Link>
+          )}
         </div>
-        <div className='px-3'>
+        <div className="px-3">
           <label className="swap swap-rotate">
             {/* this hidden checkbox controls the state */}
             <input

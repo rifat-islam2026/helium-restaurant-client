@@ -1,17 +1,55 @@
-import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../src/assets/Images//logo.png";
-import signIn from "../../../src/assets/Images/signIn.jpg";
+import useAuth from "../../Hooks/useAuth";
 
 function SignIn() {
+  const { signInGoogle, signIn } = useAuth();
+  const navigate = useNavigate();
+
     const handelFormSubmit = e => {
         e.preventDefault()
         const form = e.target;
         const email = form.email.value;
-        const password = form.password.value;
-        console.log(email,password)
-    }
+      const password = form.password.value;
+      
+      //signIn with email and password
+      signIn(email,password)
+        .then((result) => {
+          console.log(result.user)
+          if (result.user) {
+            toast.success("Registration Successful!")
+            navigate('/')
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+          toast.error(err.message);
+        });
+
+  }
+  // google signIn
+  const handelGoogleSignin = () => {
+    signInGoogle()
+      .then(result => {
+        if (result.user) {
+          toast.success('SignIn Successful!')
+          navigate('/')
+        }
+      })
+      .catch(err => {
+        console.log(err.message)
+        toast.error(err.message)
+    })
+    
+  }
   return (
     <div className="my-10">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Helium | SignIn</title>
+      </Helmet>
       <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
         <div className="hidden bg-cover lg:block lg:w-1/2">
           <img src={signIn} alt="" />
@@ -48,9 +86,12 @@ function SignIn() {
               </svg>
             </div>
 
-            <span className="w-5/6 px-4 py-3 font-bold text-center">
+            <Link
+              onClick={handelGoogleSignin}
+              className="w-5/6 px-4 py-3 font-bold text-center"
+            >
               Sign in with Google
-            </span>
+            </Link>
           </span>
 
           <div className="flex items-center justify-between mt-4">
@@ -93,9 +134,10 @@ function SignIn() {
             </div>
 
             <div className="mt-6">
-                          <button
-                            type="submit"
-                              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
+              <button
+                type="submit"
+                className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+              >
                 Sign In
               </button>
             </div>

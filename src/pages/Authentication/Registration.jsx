@@ -1,13 +1,49 @@
+import { Helmet } from "react-helmet";
+import toast from "react-hot-toast";
 import { HiOutlinePhoto } from "react-icons/hi2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../src/assets/Images//logo.png";
+import useAuth from "../../Hooks/useAuth";
 
 function Registration() {
+  const { createUser } = useAuth();
+  const navigate = useNavigate();
+  
+   const handelFormSubmit = (e) => {
+     e.preventDefault();
+     const form = e.target;
+     const name = form.name.value;
+     const email = form.email.value;
+     const photo = form.photo.value;
+     const password = form.password.value;
+     
+     createUser(email, password)
+       .then(result => {
+         console.log(result.user)
+         if (result.user) {
+           toast.success('Registration Successful!')
+           navigate('/signIn')
+         }
+       })
+       .catch(err => {
+         console.log(err.message)
+         toast.error(err.message)
+     })
+
+  };
+  
   return (
     <div className="my-10">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Helium | Registration</title>
+      </Helmet>
       <section className="bg-white dark:bg-gray-900">
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-          <form className="w-full max-w-md rounded-lg shadow-lg p-5">
+          <form
+            onSubmit={handelFormSubmit}
+            className="w-full max-w-md rounded-lg shadow-lg p-5"
+          >
             <div className="flex justify-center mx-auto">
               <img className="w-52" src={logo} alt="" />
             </div>
@@ -112,7 +148,10 @@ function Registration() {
             </div>
 
             <div className="mt-6">
-              <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+              <button
+                type="submit"
+                className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+              >
                 Sign Up
               </button>
 
