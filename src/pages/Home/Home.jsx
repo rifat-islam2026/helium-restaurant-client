@@ -1,8 +1,10 @@
+import Slider from "./Bannar/Slider"
 
 function Home() {
   return (
     <div>
-      <div className="text-5xl">This is home!</div>
+      {/* banner */}
+      <Slider/>
     </div>
   )
 }

@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../src/assets/Images//logo.png";
 import useAuth from "../../Hooks/useAuth";
 
-function Registration() {
-  const { createUser } = useAuth();
+function Register() {
+  const { createUser, updateUserProfile,user,setUser } = useAuth();
   const navigate = useNavigate();
   
    const handelFormSubmit = (e) => {
@@ -16,18 +16,20 @@ function Registration() {
      const email = form.email.value;
      const photo = form.photo.value;
      const password = form.password.value;
-     
+     // create user
      createUser(email, password)
        .then(result => {
-         console.log(result.user)
+         // update profile
+         updateUserProfile(name, photo)
+         setUser({...user,photoURL:photo,displayName:name})
          if (result.user) {
-           toast.success('Registration Successful!')
            navigate('/signIn')
+           toast.success('Registration Successful!')
          }
        })
        .catch(err => {
          console.log(err.message)
-         toast.error(err.message)
+         toast.error(err?.message)
      })
 
   };
@@ -36,7 +38,7 @@ function Registration() {
     <div className="my-10">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Helium | Registration</title>
+        <title>Helium | Register</title>
       </Helmet>
       <section className="bg-white dark:bg-gray-900">
         <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
@@ -159,10 +161,10 @@ function Registration() {
                 <a className="text-sm">
                   Already have an account?
                   <Link
-                    to="/signIn"
+                    to="/login"
                     className="font-semibold text-blue-500 hover:underline dark:text-blue-400"
                   >
-                    SignIn
+                    Login
                   </Link>
                 </a>
               </div>
@@ -174,4 +176,4 @@ function Registration() {
   );
 }
 
-export default Registration;
+export default Register;

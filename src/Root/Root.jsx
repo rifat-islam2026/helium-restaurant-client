@@ -6,9 +6,11 @@ function Root() {
   return (
     <div>
       {/* Navbar */}
-      <Navbar />
+      <div className="h-16">
+        <Navbar />
+      </div>
       {/* Outlet*/}
-      <div className="min-h-[calc(100vh-305px)]">
+      <div className="min-h-[calc(100vh-255px)] max-w-7xl mx-auto">
         <Outlet />
       </div>
       {/* Footer */}

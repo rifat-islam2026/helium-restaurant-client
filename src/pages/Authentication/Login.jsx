@@ -2,57 +2,55 @@ import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../src/assets/Images//logo.png";
+import bgImg from "../../../src/assets/Images/signIn.jpg";
 import useAuth from "../../Hooks/useAuth";
 
-function SignIn() {
+function Login() {
   const { signInGoogle, signIn } = useAuth();
   const navigate = useNavigate();
 
-    const handelFormSubmit = e => {
-        e.preventDefault()
-        const form = e.target;
-        const email = form.email.value;
-      const password = form.password.value;
-      
-      //signIn with email and password
-      signIn(email,password)
-        .then((result) => {
-          console.log(result.user)
-          if (result.user) {
-            toast.success("Registration Successful!")
-            navigate('/')
-          }
-        })
-        .catch((err) => {
-          console.log(err.message);
-          toast.error(err.message);
-        });
+  const handelFormSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
-  }
+    //signIn with email and password
+    signIn(email, password)
+      .then((result) => {
+        if (result.user) {
+          toast.success("Registration Successful!");
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        toast.error(err?.message);
+      });
+  };
   // google signIn
   const handelGoogleSignin = () => {
     signInGoogle()
-      .then(result => {
+      .then((result) => {
         if (result.user) {
-          toast.success('SignIn Successful!')
-          navigate('/')
+          toast.success("SignIn Successful!");
+          navigate("/");
         }
       })
-      .catch(err => {
-        console.log(err.message)
-        toast.error(err.message)
-    })
-    
-  }
+      .catch((err) => {
+        console.log(err.message);
+        toast.error(err.message);
+      });
+  };
   return (
     <div className="my-10">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Helium | SignIn</title>
+        <title>Helium | Login</title>
       </Helmet>
       <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
         <div className="hidden bg-cover lg:block lg:w-1/2">
-          <img src={signIn} alt="" />
+          <img src={bgImg} alt="" />
         </div>
 
         <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
@@ -61,7 +59,7 @@ function SignIn() {
           </div>
 
           <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
-            Welcome back!
+            Please Login!
           </p>
 
           <span className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -146,7 +144,7 @@ function SignIn() {
             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
 
             <Link
-              to="/registration"
+              to="/register"
               className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
             >
               or sign up
@@ -160,4 +158,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Login;
