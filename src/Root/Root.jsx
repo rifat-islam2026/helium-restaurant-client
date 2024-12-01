@@ -6,7 +6,7 @@ function Root() {
   return (
     <div>
       {/* Navbar */}
-      <div className="h-16">
+      <div className="h-[68px]">
         <Navbar />
       </div>
       {/* Outlet*/}

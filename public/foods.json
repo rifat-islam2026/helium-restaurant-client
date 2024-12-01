@@ -1,0 +1,74 @@
+[
+  {
+    "foodName": "Italian Pasta",
+    "foodImg": "https://example.com/images/pasta.jpg",
+    "foodCategories": "Italian",
+    "price": 12.99
+  },
+  {
+    "foodName": "Sushi",
+    "foodImg": "https://example.com/images/sushi.jpg",
+    "foodCategories": "Japanese",
+    "price": 15.49
+  },
+  {
+    "foodName": "Cheeseburger",
+    "foodImg": "https://example.com/images/cheeseburger.jpg",
+    "foodCategories": "American",
+    "price": 10.99
+  },
+  {
+    "foodName": "Pizza",
+    "foodImg": "https://example.com/images/pizza.jpg",
+    "foodCategories": "Italian",
+    "price": 14.99
+  },
+  {
+    "foodName": "Tacos",
+    "foodImg": "https://example.com/images/tacos.jpg",
+    "foodCategories": "Mexican",
+    "price": 9.99
+  },
+  {
+    "foodName": "Salad",
+    "foodImg": "https://example.com/images/salad.jpg",
+    "foodCategories": "Healthy",
+    "price": 7.99
+  },
+  {
+    "foodName": "Steak",
+    "foodImg": "https://example.com/images/steak.jpg",
+    "foodCategories": "American",
+    "price": 24.99
+  },
+  {
+    "foodName": "Noodles",
+    "foodImg": "https://example.com/images/noodles.jpg",
+    "foodCategories": "Asian",
+    "price": 11.49
+  },
+  {
+    "foodName": "Fried Chicken",
+    "foodImg": "https://example.com/images/fried-chicken.jpg",
+    "foodCategories": "American",
+    "price": 13.99
+  },
+  {
+    "foodName": "Seafood Platter",
+    "foodImg": "https://example.com/images/seafood.jpg",
+    "foodCategories": "Seafood",
+    "price": 29.99
+  },
+  {
+    "foodName": "Vegan Bowl",
+    "foodImg": "https://example.com/images/vegan-bowl.jpg",
+    "foodCategories": "Vegan",
+    "price": 12.49
+  },
+  {
+    "foodName": "Desserts",
+    "foodImg": "https://example.com/images/desserts.jpg",
+    "foodCategories": "Desserts",
+    "price": 6.99
+  }
+]
