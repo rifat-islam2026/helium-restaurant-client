@@ -11,10 +11,10 @@ function FoodCard({ food }) {
         <img src={foodImage} />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{foodName}</h2>
-        <p>{foodCategory}</p>
+        <h2 className="card-title">Food Name: {foodName}</h2>
+        <p>Food Category: {foodCategory}</p>
         <p>
-          <strong>$ {price}</strong>
+          <strong>Price: $ {price}</strong>
         </p>
         <div className="card-actions justify-end">
           <Link to={`/viewDetails/${food._id}`}>
