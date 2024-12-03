@@ -7,7 +7,7 @@ import useAuth from '../../../Hooks/useAuth';
 function Navbar() {
   const { user,logout } = useAuth()
   const [theme, setTheme] = useState('light')
-  console.log(theme)
+  
   // handel logout
   const handelLogout = () => {
     logout()

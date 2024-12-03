@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { Link, useLoaderData } from "react-router-dom";
 import foodBanner from "../../../assets/Images/food-banner.jpg";
 import FoodCard from "./FoodCard";
@@ -7,12 +8,14 @@ function AllFoods() {
 
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Helium | All Foods</title>
+      </Helmet>
       <div
-        className="hero min-h-screen mb-10"
+        className="hero min-h-[300px] mb-10"
         style={{
           backgroundImage: `url(${foodBanner})`,
-          height: "300px",
-          width: "100%",
         }}
       >
         <div className="hero-overlay bg-opacity-60"></div>
@@ -39,6 +42,14 @@ function AllFoods() {
             </button>
           </div>
         </div>
+      </div>
+      <div className="form-control my-10 w-1/2 relative">
+        <input
+          type="text"
+          placeholder="Search Foods"
+          className="input input-bordered w-24 md:w-auto"
+        />
+        <button className="btn btn-info absolute right-0">Send</button>
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7">
         {foods?.map((food) => (

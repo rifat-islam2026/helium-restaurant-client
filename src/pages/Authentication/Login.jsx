@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../src/assets/Images//logo.png";
 import bgImg from "../../../src/assets/Images/signIn.jpg";
 import useAuth from "../../Hooks/useAuth";
@@ -8,6 +8,7 @@ import useAuth from "../../Hooks/useAuth";
 function Login() {
   const { signInGoogle, signIn } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handelFormSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ function Login() {
       .then((result) => {
         if (result.user) {
           toast.success("Registration Successful!");
-          navigate("/");
+          navigate(location?.state ? location.state : '/' );
         }
       })
       .catch((err) => {
@@ -34,7 +35,7 @@ function Login() {
       .then((result) => {
         if (result.user) {
           toast.success("SignIn Successful!");
-          navigate("/");
+          navigate(location?.state ? location.state : "/");
         }
       })
       .catch((err) => {
