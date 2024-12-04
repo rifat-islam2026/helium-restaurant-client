@@ -1,7 +1,9 @@
+import axios from 'axios';
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
+import toast from 'react-hot-toast';
 import { useLoaderData } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
@@ -9,7 +11,7 @@ function Purchase() {
     const { user } = useAuth()
     const [startDate, setStartDate] = useState(new Date());
   const food = useLoaderData()
-  const handelPurchase = e => {
+  const handelFormSubmit = e => {
     e.preventDefault()
     const form = e.target;
     const foodName = form.foodName.value;
@@ -19,7 +21,20 @@ function Purchase() {
     const email = user?.email;
 
     const purchaseData = { foodName, price, quantity, buyingDate, email }
-    console.table(purchaseData)
+    // console.table(purchaseData)
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/purchase`, purchaseData)
+      .then((res) => {
+        console.log(res.data);
+        if(res.data.insertedId){
+          return toast.success('Purchase Confirmed')
+        }
+        e.target.reset();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    
   }
   return (
     <div className="my-20">
@@ -29,7 +44,7 @@ function Purchase() {
       </Helmet>
       <div className="card bg-base-100 w-4/5  mx-auto shrink-0 shadow-2xl">
         <img className="w-1/3 mx-auto mt-3 rounded" src={food.foodImage} />
-        <form onSubmit={handelPurchase} className="card-body">
+        <form onSubmit={handelFormSubmit} className="card-body">
           <div className="flex gap-3">
             <div className="form-control lg:w-1/2">
               <label className="label">

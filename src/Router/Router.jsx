@@ -7,6 +7,7 @@ import AllFoods from "../pages/Home/Food/AllFoods";
 import ViewDetails from "../pages/Home/Food/viewDetails";
 import Home from "../pages/Home/Home";
 
+import Gallery from "../pages/Gallery/Gallery";
 import Purchase from "../pages/Purchase/purchase";
 import PrivateRoute from "./PrivateRoute";
 
@@ -44,11 +45,19 @@ const router = createBrowserRouter([
         path: "/purchase/:id",
         element: (
           <PrivateRoute>
-            <Purchase/>
+            <Purchase />
           </PrivateRoute>
         ),
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`),
+      },
+      {
+        path: "/gallery",
+        element: (
+          <PrivateRoute>
+            <Gallery />
+          </PrivateRoute>
+        ),
       },
     ],
   },
