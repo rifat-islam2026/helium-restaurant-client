@@ -12,6 +12,7 @@ import AddFoodItem from "../pages/MyProfile/AddFoodItem";
 import MyAddedFoodItems from "../pages/MyProfile/MyAddedFoodItems";
 import MyOrderedFoodItem from "../pages/MyProfile/MyOrderedFoodItems";
 import Profile from "../pages/MyProfile/Profile";
+import Update from "../pages/MyProfile/Update";
 import Purchase from "../pages/Purchase/purchase";
 import PrivateRoute from "./PrivateRoute";
 
@@ -94,6 +95,16 @@ const router = createBrowserRouter([
             <MyOrderedFoodItem />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/update/:id",
+        element: (
+          <PrivateRoute>
+            <Update />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`),
       },
     ],
   },

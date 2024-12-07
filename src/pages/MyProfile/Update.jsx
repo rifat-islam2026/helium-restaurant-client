@@ -2,51 +2,63 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+function Update() {
+  const { user } = useAuth();
+    const loadedFoods = useLoaderData();
+    const navigate = useNavigate();
 
-function AddFoodItem() {
-   const { user } = useAuth();
-   const handelFormSubmit = (e) => {
-     e.preventDefault();
-     const form = e.target;
-     const foodName = form.foodName.value;
-     const foodCategory = form.category.value;
-     const foodImage = form.foodImage.value;
-     const quantity = form.quantity.value;
-     const price = parseInt(form.price.value);
-     const origin = form.origin.value;
-     const description = form.description.value;
-     const email = user?.email;
+  const {
+    foodName,
+    foodCategory,
+    foodImage,
+    quantity,
+    price,
+    origin,
+    description,
+    _id,
+  } = loadedFoods;
 
-     const foodData = {
-       foodName,
-       foodCategory,
-       foodImage,
-       quantity,
-       price,
-       origin,
-       description,
-       email,
-     };
-     console.table(foodData)
-     axios
-       .post(`${import.meta.env.VITE_API_URL}/foods`, foodData)
-       .then((res) => {
-         console.log(res.data);
-         if (res.data.insertedId) {
-           return toast.success("Adding a food item");
-         }
-         e.target.reset();
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-   };
+  const handelFormSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const foodName = form.foodName.value;
+    const foodCategory = form.category.value;
+    const foodImage = form.foodImage.value;
+    const quantity = form.quantity.value;
+    const price = parseInt(form.price.value);
+    const origin = form.origin.value;
+    const description = form.description.value;
+    const email = user?.email;
+    const updateData = {
+      foodName,
+      foodCategory,
+      foodImage,
+      quantity,
+      price,
+      origin,
+      description,
+      email,
+    };
+
+    axios
+      .put(`${import.meta.env.VITE_API_URL}/update/${_id}`, updateData)
+      .then((res) => {
+        if (res.data.modifiedCount >0) {
+            return toast.success("Food updated successful");
+        }
+        navigate("/my-added-food");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
-    <div className="mt-10">
+    <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Helium | AddFoodItem</title>
+        <title>Helium | Update</title>
       </Helmet>
       <div className="card bg-base-100 w-4/5  mx-auto shrink-0 shadow-2xl">
         <form onSubmit={handelFormSubmit} className="card-body">
@@ -58,6 +70,7 @@ function AddFoodItem() {
               <input
                 name="foodName"
                 type="text"
+                defaultValue={foodName}
                 placeholder="Food Name"
                 className="input input-bordered"
                 required
@@ -70,7 +83,7 @@ function AddFoodItem() {
               </label>
               <select name="category" className="select select-bordered">
                 <option disabled selected>
-                  Selected Food Category?
+                  {foodCategory}
                 </option>
                 <option value="Cheeseburger">Cheese burger</option>
                 <option value="ItalianPasta">Italian Pasta</option>
@@ -86,6 +99,7 @@ function AddFoodItem() {
             <input
               name="foodImage"
               type="text"
+              defaultValue={foodImage}
               placeholder="Food Image URL"
               className="input input-bordered"
               required
@@ -100,8 +114,8 @@ function AddFoodItem() {
               <input
                 name="quantity"
                 type="number"
+                defaultValue={quantity}
                 placeholder="Quantity"
-                defaultValue='0'
                 disabled
                 className="input input-bordered"
                 required
@@ -115,6 +129,7 @@ function AddFoodItem() {
               <input
                 name="price"
                 type="number"
+                defaultValue={price}
                 placeholder="Price"
                 className="input input-bordered"
                 required
@@ -129,7 +144,7 @@ function AddFoodItem() {
               </label>
               <select name="origin" className="select select-bordered">
                 <option disabled selected>
-                  Selected Food Origin?
+                  {origin}
                 </option>
                 <option value="Bangladesh">Bangladesh</option>
                 <option value="Italy">Italy</option>
@@ -144,6 +159,7 @@ function AddFoodItem() {
               <input
                 name="description"
                 type="text"
+                defaultValue={description}
                 placeholder="Description"
                 className="input input-bordered"
                 required
@@ -177,7 +193,7 @@ function AddFoodItem() {
 
           <div className="form-control mt-6">
             <button type="submit" className="btn btn-primary">
-              Add Item
+              Update
             </button>
           </div>
         </form>
@@ -186,4 +202,4 @@ function AddFoodItem() {
   );
 }
 
-export default AddFoodItem
+export default Update;
