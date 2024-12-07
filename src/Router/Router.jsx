@@ -8,6 +8,10 @@ import ViewDetails from "../pages/Home/Food/viewDetails";
 import Home from "../pages/Home/Home";
 
 import Gallery from "../pages/Gallery/Gallery";
+import AddFoodItem from "../pages/MyProfile/AddFoodItem";
+import MyAddedFoodItems from "../pages/MyProfile/MyAddedFoodItems";
+import MyOrderedFoodItem from "../pages/MyProfile/MyOrderedFoodItems";
+import Profile from "../pages/MyProfile/Profile";
 import Purchase from "../pages/Purchase/purchase";
 import PrivateRoute from "./PrivateRoute";
 
@@ -56,6 +60,38 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Gallery />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/my-added-food",
+        element: (
+          <PrivateRoute>
+            <MyAddedFoodItems />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/add-food-item",
+        element: (
+          <PrivateRoute>
+            <AddFoodItem />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/my-ordered-items",
+        element: (
+          <PrivateRoute>
+            <MyOrderedFoodItem />
           </PrivateRoute>
         ),
       },

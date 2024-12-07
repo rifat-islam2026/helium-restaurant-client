@@ -1,18 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { useLoaderData } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
 function Purchase() {
-    const { user } = useAuth()
-    const [startDate, setStartDate] = useState(new Date());
-  const food = useLoaderData()
-  const handelFormSubmit = e => {
-    e.preventDefault()
+  const { user } = useAuth();
+  const [startDate, setStartDate] = useState(new Date());
+  const food = useLoaderData();
+  const handelFormSubmit = (e) => {
+    e.preventDefault();
     const form = e.target;
     const foodName = form.foodName.value;
     const price = parseInt(form.price.value);
@@ -20,22 +20,21 @@ function Purchase() {
     const buyingDate = new Date(startDate).toLocaleDateString();
     const email = user?.email;
 
-    const purchaseData = { foodName, price, quantity, buyingDate, email }
+    const purchaseData = { foodName, price, quantity, buyingDate, email };
     // console.table(purchaseData)
     axios
       .post(`${import.meta.env.VITE_API_URL}/purchase`, purchaseData)
       .then((res) => {
         console.log(res.data);
-        if(res.data.insertedId){
-          return toast.success('Purchase Confirmed')
+        if (res.data.insertedId) {
+          return toast.success("Purchase Confirmed");
         }
         e.target.reset();
       })
       .catch((err) => {
         console.log(err);
       });
-    
-  }
+  };
   return (
     <div className="my-20">
       <Helmet>
@@ -134,4 +133,4 @@ function Purchase() {
   );
 }
 
-export default Purchase
+export default Purchase;

@@ -29,10 +29,10 @@ function Gallery() {
     e.preventDefault()
     const form = e.target;
     const userName = form.name.value;
-    const photoUrl = form.photo.value;
+    const imageUrl = form.photo.value;
     const feedback = form.feedback.value;
     // console.log(userName,photoUrl,feedback)
-    const galleryData = { userName, photoUrl, feedback }
+    const galleryData = { userName,feedback, imageUrl }
      axios
        .post(`${import.meta.env.VITE_API_URL}/gallery`, galleryData)
        .then((res) => {
@@ -189,7 +189,7 @@ function Gallery() {
           onClick={() => setOpenModal(true)}
           className="flex items-center btn btn-info text-base font-bold"
         >
-          Add Photos
+          Add Photo
           <span>
             <RiImageAddFill />
           </span>

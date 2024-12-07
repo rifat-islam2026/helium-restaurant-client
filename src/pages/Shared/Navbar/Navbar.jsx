@@ -48,7 +48,7 @@ function Navbar() {
       </>
     );
   return (
-    <div className="navbar flex justify-between bg-base-100 shadow-lg fixed z-10">
+    <div className="navbar flex justify-between bg-base-100 shadow-lg fixed z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -102,21 +102,27 @@ function Navbar() {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow font-semibold"
               >
                 <li>
-                  <a className="justify-between">Profile</a>
+                  <Link to="profile" className="justify-between">Profile</Link>
                 </li>
                 <li>
-                  <a>Settings</a>
+                  <Link to="my-added-food">My Added Food</Link>
                 </li>
                 <li>
-                  <a
-                    className="font-semibold bg-base-200 flex justify-center"
+                  <Link to="my-ordered-items">My Ordered Food</Link>
+                </li>
+                <li>
+                  <Link to="add-food-item">Added Food</Link>
+                </li>
+                <li>
+                  <Link
+                    className="bg-base-200 flex justify-center"
                     onClick={handelLogout}
                   >
                     Logout
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
