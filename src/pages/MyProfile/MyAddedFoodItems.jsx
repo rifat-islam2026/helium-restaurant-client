@@ -6,20 +6,22 @@ import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
 function MyAddedFoodItems() {
-    const { user } = useAuth();
-  const [foods, setFoods] = useState([])
-  console.log(foods)
-   useEffect(() => {
-     axios
-       .get(`${import.meta.env.VITE_API_URL}/my-added-foods/${user?.email}`)
-       .then((res) => {
-         setFoods(res.data);
-         console.log(res.data);
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-   }, []);
+  const { user } = useAuth();
+  const [foods, setFoods] = useState([]);
+  console.log(foods);
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/my-added-foods/${user?.email}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setFoods(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div className="mt-10">
       <Helmet>
@@ -82,4 +84,4 @@ function MyAddedFoodItems() {
   );
 }
 
-export default MyAddedFoodItems
+export default MyAddedFoodItems;

@@ -4,32 +4,43 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
 function Purchase() {
   const { user } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
   const food = useLoaderData();
+  const navigate = useNavigate();
+
   const handelFormSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const foodName = form.foodName.value;
     const price = parseInt(form.price.value);
+    const foodImage = form.photo.value;
     const quantity = form.quantity.value;
     const buyingDate = new Date(startDate).toLocaleDateString();
     const email = user?.email;
 
-    const purchaseData = { foodName, price, quantity, buyingDate, email };
-    // console.table(purchaseData)
+    const purchaseData = {
+      foodName,
+      price,
+      foodImage,
+      quantity,
+      buyingDate,
+      email,
+    };
+    console.table(purchaseData);
+
     axios
       .post(`${import.meta.env.VITE_API_URL}/purchase`, purchaseData)
       .then((res) => {
         console.log(res.data);
+        navigate("/my-ordered-items");
         if (res.data.insertedId) {
           return toast.success("Purchase Confirmed");
         }
-        e.target.reset();
       })
       .catch((err) => {
         console.log(err);
@@ -73,6 +84,20 @@ function Purchase() {
               />
             </div>
           </div>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Food Image Url</span>
+            </label>
+            <input
+              name="photo"
+              type="text"
+              placeholder="Photo Url"
+              defaultValue={food?.foodImage}
+              className="input input-bordered"
+              required
+            />
+          </div>
+
           <div className="flex gap-3">
             <div className="form-control lg:w-1/2">
               <label className="label">

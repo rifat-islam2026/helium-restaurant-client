@@ -2,46 +2,50 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
 function AddFoodItem() {
-   const { user } = useAuth();
-   const handelFormSubmit = (e) => {
-     e.preventDefault();
-     const form = e.target;
-     const foodName = form.foodName.value;
-     const foodCategory = form.category.value;
-     const foodImage = form.foodImage.value;
-     const quantity = form.quantity.value;
-     const price = parseInt(form.price.value);
-     const origin = form.origin.value;
-     const description = form.description.value;
-     const email = user?.email;
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-     const foodData = {
-       foodName,
-       foodCategory,
-       foodImage,
-       quantity,
-       price,
-       origin,
-       description,
-       email,
-     };
-     console.table(foodData)
-     axios
-       .post(`${import.meta.env.VITE_API_URL}/foods`, foodData)
-       .then((res) => {
-         console.log(res.data);
-         if (res.data.insertedId) {
-           return toast.success("Adding a food item");
-         }
-         e.target.reset();
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-   };
+  const handelFormSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const foodName = form.foodName.value;
+    const foodCategory = form.category.value;
+    const foodImage = form.foodImage.value;
+    const quantity = form.quantity.value;
+    const price = parseInt(form.price.value);
+    const origin = form.origin.value;
+    const description = form.description.value;
+    const email = user?.email;
+
+    const foodData = {
+      foodName,
+      foodCategory,
+      foodImage,
+      quantity,
+      price,
+      origin,
+      description,
+      email,
+    };
+    console.table(foodData);
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/foods`, foodData)
+      .then((res) => {
+        console.log(res.data);
+        navigate("/my-added-food");
+        if (res.data.insertedId) {
+          return toast.success("Adding a food item");
+        }
+        e.target.reset();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="mt-10">
       <Helmet>
@@ -101,7 +105,7 @@ function AddFoodItem() {
                 name="quantity"
                 type="number"
                 placeholder="Quantity"
-                defaultValue='0'
+                defaultValue="0"
                 disabled
                 className="input input-bordered"
                 required
@@ -186,4 +190,4 @@ function AddFoodItem() {
   );
 }
 
-export default AddFoodItem
+export default AddFoodItem;

@@ -105,16 +105,16 @@ function Navbar() {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow font-semibold"
               >
                 <li>
-                  <Link to="profile" className="justify-between">Profile</Link>
+                  <Link to="/profile" className="justify-between">Profile</Link>
                 </li>
                 <li>
-                  <Link to="my-added-food">My Added Food</Link>
+                  <Link to="/my-added-food">My Added Food</Link>
                 </li>
                 <li>
-                  <Link to="my-ordered-items">My Ordered Food</Link>
+                  <Link to="/my-ordered-items">My Ordered Food</Link>
                 </li>
                 <li>
-                  <Link to="add-food-item">Added Food</Link>
+                  <Link to="/add-food-item">Added Food</Link>
                 </li>
                 <li>
                   <Link
@@ -127,7 +127,7 @@ function Navbar() {
               </ul>
             </div>
           ) : (
-            <Link to="/login" className="btn btn-primary">
+            <Link to="/login" className="btn btn-ghost btn-sm font-semibold">
               Login
             </Link>
           )}

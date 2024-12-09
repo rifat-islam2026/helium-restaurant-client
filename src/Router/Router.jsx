@@ -95,6 +95,8 @@ const router = createBrowserRouter([
             <MyOrderedFoodItem />
           </PrivateRoute>
         ),
+         loader: () =>
+          fetch(`${import.meta.env.VITE_API_URL}/purchase`),
       },
       {
         path: "/update/:id",

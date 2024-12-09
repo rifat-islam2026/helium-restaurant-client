@@ -1,13 +1,16 @@
+import axios from "axios";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
 import { HiOutlinePhoto } from "react-icons/hi2";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../src/assets/Images//logo.png";
 import useAuth from "../../Hooks/useAuth";
 
 function Register() {
   const { createUser, updateUserProfile,user,setUser } = useAuth();
   const navigate = useNavigate();
+    const location = useLocation();
+  const from = location?.state || "/"; 
   
    const handelFormSubmit = (e) => {
      e.preventDefault();
@@ -23,7 +26,12 @@ function Register() {
          updateUserProfile(name, photo)
          setUser({...user,photoURL:photo,displayName:name})
          if (result.user) {
-           navigate('/signIn')
+            axios.post(
+              `${import.meta.env.VITE_API_URL}/jwt`,
+              { email: result?.user?.email },
+              { withCredentials: true }
+            );
+          navigate(from, { replace: true });
            toast.success('Registration Successful!')
          }
        })

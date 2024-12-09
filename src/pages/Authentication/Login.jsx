@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -6,9 +8,16 @@ import bgImg from "../../../src/assets/Images/signIn.jpg";
 import useAuth from "../../Hooks/useAuth";
 
 function Login() {
-  const { signInGoogle, signIn } = useAuth();
+  const { signInGoogle, signIn, user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const from = location?.state || "/";
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const handelFormSubmit = (e) => {
     e.preventDefault();
@@ -20,8 +29,13 @@ function Login() {
     signIn(email, password)
       .then((result) => {
         if (result.user) {
+           axios.post(
+             `${import.meta.env.VITE_API_URL}/jwt`,
+             { email: result?.user?.email },
+             { withCredentials: true }
+           );
           toast.success("Registration Successful!");
-          navigate(location?.state ? location.state : '/' );
+          navigate(from, { replace: true });
         }
       })
       .catch((err) => {
@@ -33,9 +47,14 @@ function Login() {
   const handelGoogleSignin = () => {
     signInGoogle()
       .then((result) => {
+        axios.post(
+          `${import.meta.env.VITE_API_URL}/jwt`,
+          { email: result?.user?.email },
+          { withCredentials: true }
+        );
         if (result.user) {
           toast.success("SignIn Successful!");
-          navigate(location?.state ? location.state : "/");
+          navigate(from, { replace: true });
         }
       })
       .catch((err) => {
@@ -43,6 +62,7 @@ function Login() {
         toast.error(err.message);
       });
   };
+  if (user || loading) return;
   return (
     <div className="my-10">
       <Helmet>
