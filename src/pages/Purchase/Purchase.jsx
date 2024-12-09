@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,12 +5,14 @@ import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 function Purchase() {
   const { user } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
   const food = useLoaderData();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handelFormSubmit = (e) => {
     e.preventDefault();
@@ -33,8 +34,8 @@ function Purchase() {
     };
     console.table(purchaseData);
 
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/purchase`, purchaseData)
+    axiosSecure
+      .post(`/purchase`, purchaseData)
       .then((res) => {
         console.log(res.data);
         navigate("/my-ordered-items");

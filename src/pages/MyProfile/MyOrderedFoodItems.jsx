@@ -1,18 +1,17 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 function MyOrderedFoodItem() {
   const { user } = useAuth();
   const [foods, setFoods] = useState([]);
-  console.log(foods);
+  const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/purchase/${user?.email}`, {
-        withCredentials: true,
-      })
+    axiosSecure
+      .get(`/purchase/${user?.email}`)
       .then((res) => {
         setFoods(res.data);
         console.log(res.data);
@@ -23,7 +22,7 @@ function MyOrderedFoodItem() {
   }, []);
   // handel delete
   const handelDelete = (id) => {
-    axios.delete(`${import.meta.env.VITE_API_URL}/delete/${id}`);
+    axiosSecure.delete(`/delete/${id}`);
     const remaining = foods.filter((f) => f._id !== id);
     setFoods(remaining);
   };

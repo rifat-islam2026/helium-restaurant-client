@@ -6,8 +6,8 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 function Update() {
   const { user } = useAuth();
-  const loadedFoods = useLoaderData();
-  const navigate = useNavigate();
+    const loadedFoods = useLoaderData();
+    const navigate = useNavigate();
 
   const {
     foodName,
@@ -46,8 +46,8 @@ function Update() {
       .put(`${import.meta.env.VITE_API_URL}/update/${_id}`, updateData)
       .then((res) => {
         navigate("/my-added-food");
-        if (res.data.modifiedCount > 0) {
-          return toast.success("Food updated successful");
+        if (res.data.modifiedCount >0) {
+            return toast.success("Food updated successful");
         }
       })
       .catch((err) => {

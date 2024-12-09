@@ -1,13 +1,14 @@
-import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 function AddFoodItem() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handelFormSubmit = (e) => {
     e.preventDefault();
@@ -31,9 +32,9 @@ function AddFoodItem() {
       description,
       email,
     };
-    console.table(foodData);
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/foods`, foodData)
+ 
+    axiosSecure
+      .post(`/foods`, foodData)
       .then((res) => {
         console.log(res.data);
         navigate("/my-added-food");

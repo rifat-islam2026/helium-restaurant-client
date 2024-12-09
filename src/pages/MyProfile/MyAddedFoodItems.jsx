@@ -1,19 +1,18 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 function MyAddedFoodItems() {
   const { user } = useAuth();
   const [foods, setFoods] = useState([]);
-  console.log(foods);
+  const axiosSecure = useAxiosSecure()
+
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/my-added-foods/${user?.email}`, {
-        withCredentials: true,
-      })
+    axiosSecure
+      .get(`/my-added-foods/${user?.email}`)
       .then((res) => {
         setFoods(res.data);
         console.log(res.data);

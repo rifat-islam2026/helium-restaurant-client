@@ -6,16 +6,18 @@ import { RiImageAddFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import foodBanner from "../../../src/assets/Images/food-banner.jpg";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import GalleyCard from "./GalleyCard";
 
 function Gallery() {
   const { user } = useAuth();
   const [gallery, setGalley] = useState([]);
-     const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => { 
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/gallery`)
+    axiosSecure
+      .get(`/gallery`)
       .then((res) => {
         setGalley(res.data);
         console.log(res.data);
