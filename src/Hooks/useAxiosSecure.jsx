@@ -15,7 +15,6 @@ function useAxiosSecure() {
    
     axiosSecure.interceptors.response.use(
         res => {
-            console.log('response app a ashar agei ami thamiye dekhechi ki ache er vitore!!')
             return res;
         },
        async err => {

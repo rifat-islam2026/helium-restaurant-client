@@ -114,7 +114,7 @@ function Navbar() {
                   <Link to="/my-ordered-items">My Ordered Food</Link>
                 </li>
                 <li>
-                  <Link to="/add-food-item">Added Food</Link>
+                  <Link to="/add-food-item">Add Food</Link>
                 </li>
                 <li>
                   <Link

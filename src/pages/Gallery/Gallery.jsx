@@ -1,5 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
 import { RiImageAddFill } from "react-icons/ri";
@@ -11,44 +12,55 @@ import GalleyCard from "./GalleyCard";
 
 function Gallery() {
   const { user } = useAuth();
-  const [gallery, setGalley] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const axiosSecure = useAxiosSecure();
 
-  useEffect(() => { 
-    axiosSecure
-      .get(`/gallery`)
-      .then((res) => {
-        setGalley(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },[])
+  const {
+    data: gallery = [],
+    isError,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryFn: () => getData(),
+    queryKey: ["gallery"],
+  });
 
-  const handelFormSubmit = e => {
-    e.preventDefault()
+  const getData = async () => {
+    const { data } = await axiosSecure.get(`/gallery`);
+    return data;
+  };
+
+  const handelFormSubmit = (e) => {
+    e.preventDefault();
     const form = e.target;
     const userName = form.name.value;
     const imageUrl = form.photo.value;
     const feedback = form.feedback.value;
     // console.log(userName,photoUrl,feedback)
-    const galleryData = { userName,feedback, imageUrl }
-     axios
-       .post(`${import.meta.env.VITE_API_URL}/gallery`, galleryData)
-       .then((res) => {
-         console.log(res.data);
-         if (res.data.insertedId) {
-           return toast.success("Photo Added Successful");
-         }
-         e.target.reset()
-       })
-       .catch((err) => {
-         console.log(err);
-       });
+    const galleryData = { userName, feedback, imageUrl };
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/gallery`, galleryData)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          return toast.success("Photo Added Successful");
+        }
+        e.target.reset();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center mt-5">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
-  
+
   return (
     <div>
       <Helmet>
@@ -102,7 +114,10 @@ function Gallery() {
                 : "-translate-y-20 opacity-0 duration-150"
             }`}
           >
-            <form onSubmit={handelFormSubmit} className="px-5 pb-5 pt-3 lg:pb-10 lg:pt-5 lg:px-10">
+            <form
+              onSubmit={handelFormSubmit}
+              className="px-5 pb-5 pt-3 lg:pb-10 lg:pt-5 lg:px-10"
+            >
               <svg
                 onClick={() => setOpenModal(false)}
                 className="mx-auto mr-0 w-10 cursor-pointer fill-black dark:fill-white"
@@ -158,7 +173,7 @@ function Gallery() {
                 </div>
 
                 <div className="relative w-max rounded-lg">
-                  <textarea 
+                  <textarea
                     name="feedback"
                     className="peer rounded-lg border border-sky-600 bg-transparent px-4 py-2 text-sky-600 focus:outline-none w-full"
                     type="text"
@@ -172,7 +187,6 @@ function Gallery() {
                     Feedback
                   </label>
                 </div>
-                
               </div>
               {/* button type will be submit for handling form submission*/}
               <button
@@ -206,4 +220,4 @@ function Gallery() {
   );
 }
 
-export default Gallery
+export default Gallery;

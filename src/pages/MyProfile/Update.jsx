@@ -1,13 +1,15 @@
-import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 function Update() {
   const { user } = useAuth();
-    const loadedFoods = useLoaderData();
-    const navigate = useNavigate();
+  const loadedFoods = useLoaderData();
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const {
     foodName,
@@ -19,6 +21,17 @@ function Update() {
     description,
     _id,
   } = loadedFoods;
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async ({ updateData }) => {
+      const { data } = await axiosSecure.put(`/update/${_id}`, updateData);
+      console.log(data)
+    },
+    onSuccess:()=> {
+      toast.success('updated')
+      navigate('/my-added-food')
+    }
+  });
 
   const handelFormSubmit = (e) => {
     e.preventDefault();
@@ -42,17 +55,18 @@ function Update() {
       email,
     };
 
-    axios
-      .put(`${import.meta.env.VITE_API_URL}/update/${_id}`, updateData)
-      .then((res) => {
-        navigate("/my-added-food");
-        if (res.data.modifiedCount >0) {
-            return toast.success("Food updated successful");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios
+    //   .put(`${import.meta.env.VITE_API_URL}/update/${_id}`, updateData)
+    //   .then((res) => {
+    //     navigate("/my-added-food");
+    //     if (res.data.modifiedCount >0) {
+    //         return toast.success("Food updated successful");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    mutateAsync({updateData});
   };
   return (
     <div>

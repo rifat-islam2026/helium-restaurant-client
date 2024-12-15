@@ -1,13 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "../Root/Root";
+import AllFoods from "../pages/AllFoods/AllFoods";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
-import AllFoods from "../pages/Home/Food/AllFoods";
+import Gallery from "../pages/Gallery/Gallery";
 import ViewDetails from "../pages/Home/Food/viewDetails";
 import Home from "../pages/Home/Home";
-
-import Gallery from "../pages/Gallery/Gallery";
 import AddFoodItem from "../pages/MyProfile/AddFoodItem";
 import MyAddedFoodItems from "../pages/MyProfile/MyAddedFoodItems";
 import MyOrderedFoodItem from "../pages/MyProfile/MyOrderedFoodItems";
@@ -44,7 +43,6 @@ const router = createBrowserRouter([
       {
         path: "/all-foods",
         element: <AllFoods />,
-        loader: () => fetch(`${import.meta.env.VITE_API_URL}/foods`),
       },
       {
         path: "/purchase/:id",

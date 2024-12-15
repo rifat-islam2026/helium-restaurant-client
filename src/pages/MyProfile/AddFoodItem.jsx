@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
@@ -10,13 +11,24 @@ function AddFoodItem() {
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
+ const {mutateAsync}= useMutation({
+    mutationFn: async ({foodData}) => {
+     const { data } = await axiosSecure.post(`/food`, foodData);
+     console.log(data)
+   },
+   onSuccess: () => {
+     toast.success('Added Food')
+     navigate('/my-added-food')
+  }
+  })
+
   const handelFormSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const foodName = form.foodName.value;
     const foodCategory = form.category.value;
     const foodImage = form.foodImage.value;
-    const quantity = form.quantity.value;
+    const quantity = 0;
     const price = parseInt(form.price.value);
     const origin = form.origin.value;
     const description = form.description.value;
@@ -32,20 +44,7 @@ function AddFoodItem() {
       description,
       email,
     };
- 
-    axiosSecure
-      .post(`/foods`, foodData)
-      .then((res) => {
-        console.log(res.data);
-        navigate("/my-added-food");
-        if (res.data.insertedId) {
-          return toast.success("Adding a food item");
-        }
-        e.target.reset();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    mutateAsync({foodData})
   };
   return (
     <div className="mt-10">
@@ -84,30 +83,15 @@ function AddFoodItem() {
             </div>
           </div>
 
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">Food Image URL</span>
-            </label>
-            <input
-              name="foodImage"
-              type="text"
-              placeholder="Food Image URL"
-              className="input input-bordered"
-              required
-            />
-          </div>
-
           <div className="flex gap-3">
             <div className="form-control lg:w-1/2">
               <label className="label">
-                <span className="label-text">Quantity</span>
+                <span className="label-text">Food Image URL</span>
               </label>
               <input
-                name="quantity"
-                type="number"
-                placeholder="Quantity"
-                defaultValue="0"
-                disabled
+                name="foodImage"
+                type="text"
+                placeholder="Food Image URL"
                 className="input input-bordered"
                 required
               />

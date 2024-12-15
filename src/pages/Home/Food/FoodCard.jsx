@@ -5,20 +5,24 @@ function FoodCard({ food }) {
   return (
     <div
       data-aos="zoom-in"
-      className="card bg-base-100 w-96 hover:shadow-xl rounded-none hover:bg-orange-50"
+      className="card bg-base-100 w-96 hover:shadow-lg rounded-none border"
     >
       <figure>
         <img src={foodImage} />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">Food Name: {foodName}</h2>
-        <p>Food Category: {foodCategory}</p>
-        <p>
+        <h2 className="card-title hover:text-orange-500 transition-colors duration-300 transform">
+          Food Name: {foodName}
+        </h2>
+        <p className="hover:text-orange-500 transition-colors duration-300 transform">
+          Food Category: {foodCategory}
+        </p>
+        <p className="hover:text-orange-500 transition-colors duration-300 transform">
           <strong>Price: $ {price}</strong>
         </p>
         <div className="card-actions justify-end">
           <Link to={`/viewDetails/${food._id}`}>
-            <button className="group relative flex w-36 items-center rounded-lg border-2 border-sky-400 p-3 text-sky-300">
+            <button className="group relative flex w-36 items-center rounded-lg border-2 border-sky-400 p-3 text-sky-400 font-semibold">
               View Details
               <span className="absolute right-3 box-content flex w-1/6 justify-center rounded-md bg-sky-400 duration-300 group-hover:w-5/6">
                 <svg

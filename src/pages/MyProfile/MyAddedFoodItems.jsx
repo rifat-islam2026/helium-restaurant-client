@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -7,20 +7,32 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 function MyAddedFoodItems() {
   const { user } = useAuth();
-  const [foods, setFoods] = useState([]);
   const axiosSecure = useAxiosSecure()
 
-  useEffect(() => {
-    axiosSecure
-      .get(`/my-added-foods/${user?.email}`)
-      .then((res) => {
-        setFoods(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+ const {
+   data: foods = [],
+   isError,
+   error,
+   isLoading,
+   refetch,
+ } = useQuery({
+   queryFn: () => getData(),
+   queryKey: ["foods", user?.email],
+ });
+
+ const getData = async () => {
+   const { data } = await axiosSecure.get(`/my-added-foods/${user?.email}`);
+   return data;
+ };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center mt-5">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-10">
       <Helmet>
